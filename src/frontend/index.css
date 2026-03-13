@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    /* White base, light purple accents */
+    --background: 0.99 0 0;
+    --foreground: 0.18 0.02 285;
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.02 285;
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.02 285;
+    /* Primary: vivid purple #7C3AED → oklch(0.49 0.27 290) */
+    --primary: 0.49 0.27 290;
+    --primary-foreground: 1 0 0;
+    /* Secondary: light lavender */
+    --secondary: 0.95 0.04 290;
+    --secondary-foreground: 0.35 0.18 290;
+    --muted: 0.96 0.02 290;
+    --muted-foreground: 0.5 0.08 290;
+    /* Accent: soft purple tint */
+    --accent: 0.93 0.06 290;
+    --accent-foreground: 0.35 0.2 290;
+    --destructive: 0.577 0.245 27;
+    --destructive-foreground: 1 0 0;
+    --border: 0.9 0.03 290;
+    --input: 0.92 0.03 290;
+    --ring: 0.49 0.27 290;
+    /* Charts: purple palette */
+    --chart-1: 0.49 0.27 290;
+    --chart-2: 0.65 0.2 290;
+    --chart-3: 0.75 0.15 290;
+    --chart-4: 0.56 0.24 250;
+    --chart-5: 0.38 0.18 290;
+    --sidebar: 0.97 0.03 290;
+    --sidebar-foreground: 0.18 0.02 285;
+    --sidebar-primary: 0.49 0.27 290;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.93 0.06 290;
+    --sidebar-accent-foreground: 0.35 0.2 290;
+    --sidebar-border: 0.9 0.03 290;
+    --sidebar-ring: 0.49 0.27 290;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: oklch(0.95 0.04 290); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: oklch(0.7 0.15 290); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: oklch(0.49 0.27 290); }
