@@ -5,7 +5,6 @@ import {
   ChefHat,
   Clock,
   LogOut,
-  Package,
   Play,
   ShoppingBag,
 } from "lucide-react";
@@ -23,8 +22,7 @@ const isInstantOrPackaged = (order: Order) =>
   );
 
 export default function ChefDashboard() {
-  const { currentUser, logout, orders, startPreparing, markReady, markPicked } =
-    useApp();
+  const { currentUser, logout, orders, startPreparing, markReady } = useApp();
 
   if (!currentUser || currentUser.role !== "chef") return null;
 
@@ -32,7 +30,6 @@ export default function ChefDashboard() {
   const pending = chefOrders.filter((o) => o.status === "Pending");
   const preparing = chefOrders.filter((o) => o.status === "Preparing");
   const ready = orders.filter((o) => o.status === "Ready");
-  const picked = orders.filter((o) => o.status === "Picked");
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -90,7 +87,7 @@ export default function ChefDashboard() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.05 }}
-          className="grid grid-cols-4 gap-4"
+          className="grid grid-cols-3 gap-4"
         >
           <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 text-center">
             <div className="text-3xl font-extrabold text-amber-600">
@@ -114,14 +111,6 @@ export default function ChefDashboard() {
             </div>
             <div className="text-xs font-semibold text-green-700 mt-0.5">
               Ready
-            </div>
-          </div>
-          <div className="bg-purple-50 border border-purple-100 rounded-2xl p-4 text-center">
-            <div className="text-3xl font-extrabold text-purple-600">
-              {picked.length}
-            </div>
-            <div className="text-xs font-semibold text-purple-700 mt-0.5">
-              Completed
             </div>
           </div>
         </motion.div>
@@ -257,7 +246,7 @@ export default function ChefDashboard() {
                       onClick={() => {
                         markReady(order.id);
                         toast.success(
-                          `${order.token} marked as ready — visible to canteen for pickup!`,
+                          `${order.token} marked as ready — canteen admin will handle pickup!`,
                         );
                       }}
                     >
@@ -270,17 +259,20 @@ export default function ChefDashboard() {
           )}
         </section>
 
-        {/* Ready for Pickup */}
+        {/* Ready for Pickup — read-only, admin handles pickup */}
         <section data-ocid="chef.ready_section">
           <motion.h3
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-lg font-extrabold mb-4 flex items-center gap-2"
+            className="text-lg font-extrabold mb-1 flex items-center gap-2"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block" />
             Ready for Pickup ({ready.length})
           </motion.h3>
+          <p className="text-xs text-muted-foreground mb-4">
+            Handed off to canteen admin — pickup will be confirmed by admin
+          </p>
           {ready.length === 0 ? (
             <div
               data-ocid="chef.ready.empty_state"
@@ -303,7 +295,7 @@ export default function ChefDashboard() {
                       marginBottom: 0,
                     }}
                     transition={{ delay: idx * 0.05 }}
-                    className="bg-card border-l-4 border-l-green-500 border border-border rounded-2xl p-5 flex items-center gap-4"
+                    className="bg-green-50/60 border border-green-100 rounded-2xl p-5 flex items-center gap-4"
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
@@ -321,76 +313,12 @@ export default function ChefDashboard() {
                         {order.canteenName}
                       </p>
                     </div>
-                    <Button
-                      data-ocid={`chef.mark_picked_button.${idx + 1}`}
-                      size="sm"
-                      className="bg-purple-600 text-white hover:bg-purple-700 gap-1.5 shrink-0"
-                      onClick={() => {
-                        markPicked(order.id);
-                        toast.success(
-                          `${order.token} picked up — order complete! ✓`,
-                        );
-                      }}
-                    >
-                      <Package className="w-3 h-3" /> Mark as Picked
-                    </Button>
+                    <div className="shrink-0 text-green-500">
+                      <CheckCheck className="w-5 h-5" />
+                    </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </div>
-          )}
-        </section>
-
-        {/* Completed Today */}
-        <section data-ocid="chef.completed_section">
-          <motion.h3
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.25 }}
-            className="text-lg font-extrabold mb-4 flex items-center gap-2"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-500 inline-block" />
-            Completed Today ({picked.length})
-          </motion.h3>
-          {picked.length === 0 ? (
-            <div
-              data-ocid="chef.completed.empty_state"
-              className="text-muted-foreground text-sm py-8 text-center bg-secondary/30 rounded-2xl"
-            >
-              No completed orders yet today
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {picked.map((order, idx) => (
-                <motion.div
-                  key={order.id}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.04 }}
-                  className="bg-card border-l-4 border-l-purple-400 border border-border rounded-2xl p-5 flex items-center gap-4 opacity-70"
-                  data-ocid={`chef.completed.item.${idx + 1}`}
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-2xl font-extrabold text-purple-500 font-mono line-through decoration-purple-300">
-                        {order.token}
-                      </span>
-                      <Badge className="bg-purple-100 text-purple-700 border-purple-200">
-                        Picked
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {order.items.map((i) => i.menuItem.name).join(", ")}
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
-                      {order.canteenName}
-                    </p>
-                  </div>
-                  <div className="shrink-0 text-purple-400">
-                    <CheckCheck className="w-5 h-5" />
-                  </div>
-                </motion.div>
-              ))}
             </div>
           )}
         </section>
