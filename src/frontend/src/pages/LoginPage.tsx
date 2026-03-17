@@ -30,7 +30,7 @@ export default function LoginPage() {
             <ShoppingBag className="w-8 h-8 text-primary-foreground" />
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground">
-            Canzie
+            CanZie
           </h1>
           <p className="text-muted-foreground mt-2 font-medium">
             Your campus dining, simplified

@@ -33,7 +33,7 @@ export default function AdminDashboard() {
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight">
-                Canzie
+                CanZie
               </span>
               <span className="ml-2 text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                 Admin

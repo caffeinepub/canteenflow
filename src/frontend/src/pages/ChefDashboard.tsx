@@ -42,7 +42,7 @@ export default function ChefDashboard() {
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight">
-                Canzie
+                CanZie
               </span>
               <span className="ml-2 text-xs font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
                 Chef

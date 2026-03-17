@@ -34,7 +34,7 @@ export default function UserDashboard() {
               <ShoppingBag className="w-5 h-5 text-primary-foreground" />
             </div>
             <span className="text-xl font-extrabold tracking-tight">
-              Canzie
+              CanZie
             </span>
           </div>
           <div className="flex items-center gap-4">
